@@ -1,3 +1,6 @@
+# Zett
+
+Hugo theme for creating a digital garden based on Zettelkästen. Original work by [Crisrojas](https://github.com/crisrojas) from [Zettels](https://github.com/crisrojas/zettels). Checkout [gumroad](https://gumroad.com/l/zettelkasten) for supporting the original author.
 
 ## Demo
 
@@ -5,7 +8,9 @@
 
 ## Minimum Hugo version
 
-TODO
+You will need Hugo *extended* version in order to support Sass/SCSS.
+
+Hugo version 0.60.1 or higher is required. View the [Hugo releases](https://github.com/gohugoio/hugo/releases) and download the binary for your OS.
 
 ## Installation
 
@@ -33,48 +38,11 @@ hugo server --themesDir ../..
 
 ## Configuration
 
-Copy `config.yaml` from the [`exampleSite`](https://github.com/zwbetz-gh/cupper-hugo-theme/tree/master/exampleSite), then edit as desired.
+Copy `config.yaml` from the [`exampleSite`](https://github.com/acien101/Zett/blob/master/exampleSite/config.yaml), then edit as desired.
 
+## Favicons
 
-
-Online Zettelkästen built with [Hugo](https://gohugo.io/)
-
-If you like it, please consider supporting and buying it at  [Zettels Hugo Theme](https://gumroad.com/l/zettelkasten)
-
-**Installing hugo**
-
-See [hugo documentation](https://gohugo.io/getting-started/installing) to get started
-
-**Install theme**
-
-Put this theme inside the "themes" folder.
-
-You would want to add some elements inside your config.toml file (uglyURLs, output json, ...)
-
-Here you have an example of a `config.toml` file that has all you need:
-
-```toml
-languageCode = "en-EN"
-title = "Your site's title"
-theme = "zettels"
-uglyURLS=  true
-publishDir = "public"
-pygmentsUseClasses=true
-googleAnalytics = "Your google analytics number"
-# assetDir = "themes/zettels/assets"
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
-[params]
-    favicon = "favicon.ico"
-[markup.goldmark.renderer]
-unsafe= true
-```
-
-**Start the server**
-
-```
-hugo server -D
-```
+Upload your image to [RealFaviconGenerator](https://realfavicongenerator.net/) then copy-paste the generated favicon files under `assets`.
 
 ### Linking notes
 
@@ -131,3 +99,17 @@ Hi! This is the content of my awesome note.
 ```
 
 This way the note can be referenced in the backlinks section since the backlink function will look for the `title` key.
+
+## MathJax
+
+You can write math equations using **latex syntax**.
+
+```
+For multi-line equations:
+
+$$
+\sqrt{\frac{\lambda}{\ro}}
+$$
+
+For inline equations you can use \\(\Omega_{124}\\)
+```

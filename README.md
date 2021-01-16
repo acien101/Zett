@@ -100,7 +100,7 @@ Hi! This is the content of my awesome note.
 
 This way the note can be referenced in the backlinks section since the backlink function will look for the `title` key.
 
-## MathJax
+### MathJax
 
 You can write math equations using **latex syntax**.
 

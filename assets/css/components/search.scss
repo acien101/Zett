@@ -1,24 +1,29 @@
- #fastSearch { 
+ #fastSearch {
  visibility: $command-visibility;
  z-index: 200;
  position: fixed;
- width: 550px;
+ width: 682px;
  top: 120px;
- left: 50%;
+ //left: 50%;
  color: #a0aec0;
  overflow: hidden;
  background-color: $command-bg;
- margin-left: -275px;
+ //margin-left: -275px;
  border-radius: $command-border-r;
 --bg-opacity: 0.90;
  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+ margin: 0 auto;
+ @media only screen and (max-width: 768px) {
+   width: 90%;
+ }
+
 }
 .fastSearch__input__container {
 	padding: 1rem;
-}      
+}
 
-#fastSearch input { 
-  
+#fastSearch input {
+
   border: none;
   outline: none;
   background-color: transparent;
@@ -38,24 +43,24 @@
 	display: inline-block;
 	text-decoration: none;
 	color: $search-results-color;
-	
+
 }
 
-#searchResults li { 
-	font-size: $text-base; 
-	
-}
+#searchResults li {
+	font-size: $text-base;
 
-#searchResults { 
-	margin-bottom: 0;
-	
 }
 
 #searchResults {
-	a:focus { 
-	outline: 0;	
-	background-color: $search-results-focus-bg; 
-	color: #fff; 
+	margin-bottom: 0;
+
+}
+
+#searchResults {
+	a:focus {
+	outline: 0;
+	background-color: $search-results-focus-bg;
+	color: #fff;
 	}
 	a:focus :last-child {
 		//background: white;

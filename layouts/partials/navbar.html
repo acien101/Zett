@@ -3,11 +3,14 @@
         <a id="close-btn" style="transition: 15s;" onclick="closeNav()" class="hidden navbar-button button-back button-close"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path><path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path></svg></a>
         <a id="back-btn" title="use <- arrow" href="javascript:window.history.back();" class="navbar-button button-back"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="arrow-left"><polyline fill="none" stroke="" points="10 14 5 9.5 10 5"></polyline><line fill="none" stroke="" x1="16" y1="9.5" x2="5" y2="9.52"></line></svg></a>
         <a title="use up arrow" href="{{ if .Params.Home }}{{ .Params.Home }}{{ else }}javascript:document.location='/';{{ end }}" class="navbar-button button-forward"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="stroke:none" data-svg="home"><polygon points="18.65 11.35 10 2.71 1.35 11.35 0.65 10.65 10 1.29 19.35 10.65"></polygon><polygon points="15 4 18 4 18 7 17 7 17 5 15 5"></polygon><polygon points="3 11 4 11 4 18 7 18 7 12 12 12 12 18 16 18 16 11 17 11 17 19 11 19 11 13 8 13 8 19 3 19"></polygon></svg></a>
-		
-        
+        <a id="search-btn" title="Use win + k for search" href="javascript:activateSearch();" class="navbar-button button-back"><svg class="svg-icon" viewBox="0 0 20 20"><path d="M18.125,15.804l-4.038-4.037c0.675-1.079,1.012-2.308,1.01-3.534C15.089,4.62,12.199,1.75,8.584,1.75C4.815,1.75,1.982,4.726,2,8.286c0.021,3.577,2.908,6.549,6.578,6.549c1.241,0,2.417-0.347,3.44-0.985l4.032,4.026c0.167,0.166,0.43,0.166,0.596,0l1.479-1.478C18.292,16.234,18.292,15.968,18.125,15.804 M8.578,13.99c-3.198,0-5.716-2.593-5.733-5.71c-0.017-3.084,2.438-5.686,5.74-5.686c3.197,0,5.625,2.493,5.64,5.624C14.242,11.548,11.621,13.99,8.578,13.99 M16.349,16.981l-3.637-3.635c0.131-0.11,0.721-0.695,0.876-0.884l3.642,3.639L16.349,16.981z"></path></svg></a>
+
+
+
+
     </div>
-	
-	
+
+
 
 
 </div>

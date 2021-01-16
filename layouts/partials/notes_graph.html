@@ -1,0 +1,260 @@
+<!-- ORIGINAL SOURCE FROM https://github.com/maximevaillancourt/digital-garden-jekyll-template/blob/master/_includes/notes_graph.html -->
+
+<style>
+  .links line {
+    stroke: #888;
+    opacity: 0.8;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper text {
+    stroke: none;
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<div class="graphdata" id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 3;
+    const MAX_NODE_SIZE = 20;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 8;
+    const TICKS = 200;
+    const FONT_BASELINE = 20;
+    const MAX_LABEL_LENGTH = 25;
+
+    drag = simulation => {
+
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(event,d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event,d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+
+      return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
+    }
+
+    color = (d) => {
+      const scale = d3.scaleLinear()
+    .domain([MINIMAL_NODE_SIZE, MAX_NODE_SIZE])
+    .range(["#90CAF9", "#0D47A1"]);
+      return scale(Math.ceil(nodeSize[d.id]));
+    }
+
+    function isCurrentPath(notePath) {
+      if (window.location.pathname == '/' && notePath == '/')
+        return true
+      if (notePath == '/')
+        return false
+      return window.location.pathname.includes(notePath)
+    }
+
+    const onClick = (d,i) => {
+      window.location = i.path
+    };
+
+
+    const onMouseover = function (d,i) {
+      if (!i)
+        return;
+      const relatedNodesSet = new Set();
+      links
+        .filter((n) => n.target.id == i.id || n.source.id == i.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== i.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== i.id && link_d.target.id !== i.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === i.id || link_d.target.id === i.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== i.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    height = 680
+
+    data = {{ partialCached "connections.html" . | safeJS }}
+
+    let nodes = data.nodes;
+    let links = data.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodes.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            links.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    updateNodeSize();
+
+    const simulation = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(d => d.id))
+    .force("charge", d3.forceManyBody().strength(-100))
+    .force("x", d3.forceX())
+    .force("y", d3.forceY());
+
+    const svg = d3.select("div#graph-wrapper").append("svg")
+    .attr("viewBox", [-window.innerWidth / 2, -window.innerHeight / 2, window.innerWidth, window.innerHeight]);
+
+    const g = svg.append("g");
+
+    const link = g.append("g")
+    .attr("stroke", "#999")
+    .attr("stroke-opacity", 0.6)
+    .attr("class", "links")
+    .on("click", onClick)
+    .on("mouseover", onMouseover)
+    .on("mouseout", onMouseout)
+    .selectAll("line")
+    .data(links)
+    .join("line")
+    .attr("stroke-width", d => Math.sqrt(d.value));
+
+    const node = g.append("g")
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 1.5)
+    .attr("class", "nodes")
+    .selectAll("circle")
+    .data(nodes)
+    .join("circle")
+    .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+    .attr("fill", color)
+    .on("click", onClick)
+    .on("mouseover", onMouseover)
+    .on("mouseout", onMouseout)
+    .call(drag(simulation));
+
+    const text = g.append("g")
+    .attr("class", "text")
+    .selectAll("text")
+    .data(nodes)
+    .join("text")
+    .attr("font-size", `${FONT_SIZE}px`)
+    .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .on("click", onClick)
+    .on("mouseover", onMouseover)
+    .on("mouseout", onMouseout)
+    .call(drag(simulation));
+
+    node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+    text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+    simulation.on("tick", () => {
+      link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+
+      node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
+
+      text
+        .attr("x", d => d.x)
+        .attr("y", d => d.y - (FONT_BASELINE + nodeSize[d.id]) / 2);
+    });
+
+    svg.call(d3.zoom()
+      .extent([[0, 0], [window.innerWidth, window.innerHeight]])
+      .scaleExtent([1, 8])
+      .on("zoom", zoomed));
+
+      function zoomed({transform}) {
+        g.attr("transform", transform);
+      }
+
+
+    </script>
+</div>

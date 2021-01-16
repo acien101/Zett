@@ -1,0 +1,29 @@
+{{ $bracket1 := "\\[\\[" -}}
+{{ $bracket2 := "\\]\\]" -}}
+{
+  "edges":[
+    {{ range .Site.Pages -}}
+    {{ $filename := .File.BaseFileName -}}
+    {{ $path :=  printf "%s%s%s" $bracket1 $filename $bracket2 -}}
+    {{ range .Site.Pages -}}
+    {{ if findRE $path .Content -}}
+    {
+      "source" : "{{ $filename -}}" ,
+      "target" : "{{ .File.BaseFileName -}}",
+    },
+    {{ end -}}
+    {{ end -}}
+    {{ end -}}
+  ],
+  "nodes":[
+    {{ range .Site.Pages -}}
+    {{ if ne .File.BaseFileName "" -}}
+      {
+      "id": "{{ .File.BaseFileName }}",
+      "path": "{{ .RelPermalink }}",
+      "label": "{{ .Title }}"
+    },
+    {{ end -}}
+    {{ end -}}
+  ]
+}

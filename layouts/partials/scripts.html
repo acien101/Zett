@@ -1,4 +1,4 @@
- 
+
 {{ $fuse		:= resources.Get "js/fuse.js" }}
 {{ $fastsearch  := resources.Get "js/fastsearch.js" }}
 {{ $jquery		:= resources.Get "js/jquery.js" }}
@@ -7,13 +7,9 @@
 {{ $nav 		:= resources.Get "js/nav.js" }}
 {{ $collage 		:= resources.Get "js/collage.js" }}
 {{ $defaultJS 	:= slice $jquery $fastsearch $fuse $nav $copycode $collage | resources.Concat "js/global.js" }}
- 
- 	
+
+
 <script src="{{ $defaultJS.Permalink }}" type="text/javascript" defer></script>
- 
- 
- 
-
-
-
-
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>

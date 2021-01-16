@@ -2,12 +2,23 @@
 <html>
 {{ partial "head.html" . }}
 
-<body class="note-wrapper"> 
+<body class="note-wrapper">
 	<iframe id="mySidenav" name="split" class="sidenav" src=""></iframe>
-	<article id="main" class="content ">
+	<article id="main" class="container mb-5 wrapper post cursor-pointer block zettel p-10 shadow-lg hover:shadow-lg relative bg-white md:mt-10 sm:mt-4 text-gray-700 max-w-xl mx-auto">
 		{{ partial "navbar.html" }}
-		{{ partial "content.html" . }}
+
+		<h3 class="text-xl hover:text-indigo-600">{{ .Title }}</h1>
+
+		<zettel-id class="block font-bold text-xs text-gray-500 tracking-wider hover:text-gray-700 inline-block rounded-md">{{ .File }}</zettel-id>
+
+		<article class="content" style="margin-top:2rem">
+			{{ partial "content.html" . }}
+		</article>
+
+
+
 	</article>
+	{{ partialCached "notes_graph.html" . }}
 	{{ partial "search.html" }}
 	{{ partial "scripts.html"  }}
 

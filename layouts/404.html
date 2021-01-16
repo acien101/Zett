@@ -1,1 +1,24 @@
-test
+<!DOCTYPE html>
+<html>
+{{ partial "head.html" . }}
+
+<body class="note-wrapper">
+	<iframe id="mySidenav" name="split" class="sidenav" src=""></iframe>
+	<article id="main" class="container mb-5 wrapper post cursor-pointer block zettel p-10 shadow-lg hover:shadow-lg relative bg-white md:mt-10 sm:mt-4 text-gray-700 max-w-xl mx-auto">
+		{{ partial "navbar.html" }}
+
+		<h3 class="text-xl hover:text-indigo-600">😞 404 PAGE NOT FOUND 😞</h3>
+
+		<article class="content" style="margin-top:2rem">
+			😞😞😞😞😞
+		</article>
+
+
+
+	</article>
+	{{ partialCached "notes_graph.html" . }}
+	{{ partial "search.html" }}
+	{{ partial "scripts.html"  }}
+
+</body>
+</html>

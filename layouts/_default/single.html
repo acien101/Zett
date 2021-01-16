@@ -3,21 +3,29 @@
 {{ partial "head.html" . }}
 <body class="note-wrapper">
 	<iframe id="mySidenav" name="split" class="sidenav" src=""></iframe>
-	<div id="main" class="container wrapper post">
+	<div id="main" class="container wrapper post cursor-pointer block zettel p-10 shadow-lg hover:shadow-lg relative bg-white md:mt-10 sm:mt-4 text-gray-700 max-w-xl mx-auto">
+
+
+
 		{{ partialCached "navbar.html" . }}
-		
-		
-		<article class="content" style="margin-top:4rem"> 
+
+		<h3 class="text-xl hover:text-indigo-600">{{ .Title }}</h1>
+
+		<zettel-id class="block font-bold text-xs text-gray-500 tracking-wider hover:text-gray-700 inline-block rounded-md">{{ .File.BaseFileName }}</zettel-id>
+
+		<article class="content" style="margin-top:2rem">
 			{{ partial "content.html" . }}
 		</article>
-	
+
 	</div>
 
 {{ partial "search.html" . }}
 {{ partial "scripts.html" }}
-{{ partial "backlinks.html" . }}
+
+<backlinks class="block mt-2 text-sm p-4 text-gray-600 max-w-xl mx-auto"> {{ partial "backlinks.html" . }} </backlinks>
+
+{{ partialCached "notes_graph.html" . }}
 
 
-	
 </body>
 </html>

@@ -1,0 +1,19 @@
+baseurl: "https://example.com"
+languageCode: en-EN
+defaultContentLanguage: en
+title: Your site's title
+theme: Zett
+uglyURLS: true
+publishDir: public
+pygmentsUseClasses: true
+googleAnalytics: Your google analytics number
+# assetDir = "themes/zettels/assets"
+
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+
+params:
+  favicon: "favicon.ico"
+
+markup.goldmark.renderer:
+  unsafe: true

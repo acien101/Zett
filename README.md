@@ -1,6 +1,43 @@
+
+## Demo
+
+<https://acien101.gitlab.io/>
+
+## Minimum Hugo version
+
+TODO
+
+## Installation
+
+From the root of your site:
+
+```
+git submodule add https://github.com/acien101/Zett themes/Zett
+```
+
+## Updating
+
+From the root of your site:
+
+```
+git submodule update --remote --merge
+```
+
+## Run example site
+
+From the root of `themes/Zett/exampleSite`:
+
+```
+hugo server --themesDir ../..
+```
+
+## Configuration
+
+Copy `config.yaml` from the [`exampleSite`](https://github.com/zwbetz-gh/cupper-hugo-theme/tree/master/exampleSite), then edit as desired.
+
+
+
 Online Zettelkästen built with [Hugo](https://gohugo.io/)
-
-
 
 If you like it, please consider supporting and buying it at  [Zettels Hugo Theme](https://gumroad.com/l/zettelkasten)
 
@@ -12,7 +49,7 @@ See [hugo documentation](https://gohugo.io/getting-started/installing) to get st
 
 Put this theme inside the "themes" folder.
 
-You would want to add some elements inside your config.toml file (uglyURLs, output json, ...) 
+You would want to add some elements inside your config.toml file (uglyURLs, output json, ...)
 
 Here you have an example of a `config.toml` file that has all you need:
 
@@ -41,7 +78,7 @@ hugo server -D
 
 ### Linking notes
 
-This theme includes [[wikilinks]] support. 
+This theme includes [[wikilinks]] support.
 
 If you want to link a note, just put it's file name inside two brackets.
 
@@ -54,7 +91,7 @@ biology.md
 You would link it like this
 
 ```
-[[biology]] 
+[[biology]]
 ```
 
 Output:
@@ -69,7 +106,7 @@ Make sure your filenames contain not spaces as this isn't supported by the regex
 
 ```
 biologia-celular.md ✅
-[[biologia-celular]] ✅ 
+[[biologia-celular]] ✅
 ```
 
 **DON'T**

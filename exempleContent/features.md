@@ -10,3 +10,4 @@ title: Features
 - [[themeable]] Themeable
 - [[search]] Search
 - [[all-features]] All features
+- [[mathjax]] Mathjax

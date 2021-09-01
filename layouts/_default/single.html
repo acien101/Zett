@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
-{{ partial "head.html" . }}
-<body class="note-wrapper">
+
+{{ define "main" }}
+<div class="note-wrapper">
 	<iframe id="mySidenav" name="split" class="sidenav" src=""></iframe>
 	<div id="main" class="container wrapper post cursor-pointer block zettel p-10 shadow-lg hover:shadow-lg relative bg-white md:mt-10 sm:mt-4 text-gray-700 max-w-xl mx-auto">
 
@@ -27,5 +26,5 @@
 {{ partialCached "notes_graph.html" . }}
 
 
-</body>
-</html>
+</div>
+{{ end }}

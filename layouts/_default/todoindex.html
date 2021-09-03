@@ -1,0 +1,144 @@
+
+{{ define "main" }}
+<div class="note-wrapper">
+	<iframe id="mySidenav" name="split" class="sidenav" src=""></iframe>
+	<div id="main" class="container wrapper post cursor-pointer block zettel p-10 shadow-lg hover:shadow-lg relative bg-white md:mt-10 sm:mt-4 text-gray-700 max-w-xl mx-auto">
+
+
+
+		{{ partialCached "navbar.html" . }}
+
+		<h3 class="text-xl hover:text-indigo-600">{{ .Title }}</h3>
+
+		<zettel-id class="block font-bold text-xs text-gray-500 tracking-wider hover:text-gray-700 inline-block rounded-md">{{ .File.BaseFileName }}</zettel-id>
+
+		<article class="content" style="margin-top:2rem">
+			{{ partial "content.html" . }}
+		</article>
+
+		{{ if .Site.Params.todofeat }}
+		<h3 id="tasks">Tasks</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Age</th>
+          <th>Due</th>
+          <th>Description</th>
+          <th>Priority</th>
+          <th>Urg</th>
+        </tr>
+      </thead>
+      <tbody>
+				{{ $tasks := slice }}	<!-- Save the valuable information in a dict and then range sorting with the priority -->
+				{{ range where (where (where .Site.Pages "Params.layout" "todo") "Params.status" "!=" 3) "Params.status" "!=" 5 }}
+					<!-- Parse date from filename. Filename must be YYYYMMDD, if not,
+					the following will cause an error -->
+
+					{{ $nombreFich := .File.BaseFileName }}
+					{{ $year := substr $nombreFich 0 4  }}
+					{{ $month := substr $nombreFich 4 2 }}
+					{{ $day := substr $nombreFich 6 2 }}
+
+					{{ $parsedDate := (print $year "-" $month "-" $day ) }}
+
+					{{ $ageDate := (time $parsedDate) }} <!-- THIS FUNCTION WILL CAUSE AN ERROR IF FILENAME NOT STARTS WITH YYYYMMDD -->
+					{{ $ageDays := div (sub now.Unix $ageDate.Unix) 86400 }}
+
+					{{ $near := .Site.Params.todoCoefficients.near }}
+					{{ $blocking := .Site.Params.todoCoefficients.blocking}}
+					{{ $highp := .Site.Params.todoCoefficients.highp }}
+					{{ $medp := .Site.Params.todoCoefficients.medp }}
+					{{ $lowp := .Site.Params.todoCoefficients.lowp }}
+					{{ $started := .Site.Params.todoCoefficients.started }}
+					{{ $old := .Site.Params.todoCoefficients.old }}
+					{{ $bloqued := .Site.Params.todoCoefficients.bloqued }}
+
+					{{ $urgency := 0 }}
+
+					{{ if .Params.deadline }}
+						{{ $dueDate := (time .Params.deadline )}}
+						{{ if le (div (sub $dueDate.Unix now.Unix ) 86400) 2 }}
+							{{ $urgency = add $urgency $near }}
+						{{ end }}
+					{{ end }}
+
+					{{ if .Params.priority }}
+						{{ if eq .Params.priority 1}}
+							{{ $urgency = add $urgency $lowp }}
+						{{ end }}
+						{{ if eq .Params.priority 2}}
+							{{ $urgency = add $urgency $medp }}
+						{{ end }}
+						{{ if eq .Params.priority 3}}
+							{{ $urgency = add $urgency $highp }}
+						{{ end }}
+					{{ end }}
+
+					{{ if .Params.status }}
+						{{ if eq .Params.status 2}}
+							{{ $urgency = add $urgency $started }}
+						{{ end }}
+						{{ if eq .Params.priority 4}}
+							{{ $urgency = add $urgency $bloqued }}
+						{{ end }}
+						{{ if eq .Params.priority 6}}
+							{{ $urgency = add $urgency $blocking }}
+						{{ end }}
+					{{ end }}
+
+					{{ if $ageDays }}
+						{{ if ge $ageDays 7}}
+							{{ $urgency = add $urgency $old }}
+						{{ end }}
+					{{ end }}
+
+					<!-- Adding all the information to a dict -->
+					{{ $task := (dict "Permalink" .Permalink) }}
+					{{ $task = merge $task (dict "BaseFileName" .File.BaseFileName) }}
+					{{ $task = merge $task (dict "ageDays" $ageDays) }}
+					{{ $task = merge $task (dict "urgency" $urgency) }}
+					{{ $task = merge $task (dict "deadline" .Params.deadline) }}
+					{{ $task = merge $task (dict "Title" .Title) }}
+					{{ $task = merge $task (dict "priority" .Params.priority) }}
+					{{ $task = merge $task (dict "urgency" $urgency) }}
+
+					<!-- Add the dict to an array in order to order by the prioriry -->
+					{{ $tasks = $tasks | append $task }}
+
+				{{ end }}
+
+        {{ range sort $tasks "urgency" "desc" }}
+          <tr>
+            <td><a title="open" class="zettel-link text-gray-500  font-bold font-mono text-xs hover:bg-green-100" href="{{ .Permalink }}">[[<span class="text-green-700 text-xs" style="background:none">{{ .BaseFileName }}</span>]]</a></td>
+            <td>
+							{{ .ageDays }}d
+						</td>
+            <td>{{ if .deadline }}
+									{{ $dueDate := (time .deadline )}}
+							  	{{ div (sub $dueDate.Unix now.Unix ) 86400 }}d
+								{{ end }}</td>
+            <td>{{ if .Title }}{{ .Title }}{{ end }}</td>
+            <td>{{ if .priority }} {{ if $.Site.Data.priorityEmojis }}{{ index $.Site.Data.priorityEmojis (printf "%d" .priority) }} {{ end }} - {{ .priority }}{{ end }}</td>
+            <td>
+							{{ .urgency }}
+						</td>
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+		{{ end }}
+
+	</div>
+
+{{ partial "search.html" . }}
+{{ partial "scripts.html" }}
+
+<backlinks class="block mt-2 text-sm p-4 text-gray-600 max-w-xl mx-auto"> {{ partial "backlinks.html" . }} </backlinks>
+
+{{ partialCached "notes_graph.html" . }}
+
+
+</div>
+{{ end }}

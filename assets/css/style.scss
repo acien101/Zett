@@ -62,6 +62,12 @@ table {
     background: #FFFFFF;
 }
 
+.text-green-700-backlinks {
+    --text-opacity: 1;
+    color: #2f855a;
+    color: rgba(47,133,90,var(--text-opacity));
+}
+
 article a {
     text-decoration: underline;
     color: green;
@@ -75,6 +81,12 @@ article a:hover {
 .hover\:bg-green-100:hover {
     --bg-opacity: 1;
     background-color: #f0fff4;
+    background-color: rgba(240,255,244,var(--bg-opacity));
+}
+
+.hover\:bg-green-100-asdf:hover {
+    --bg-opacity: 1;
+    background-color: #fff2db !important;
     background-color: rgba(240,255,244,var(--bg-opacity));
 }
 

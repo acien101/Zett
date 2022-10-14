@@ -9,7 +9,7 @@
 <h3 style="margin-top: 0px;">Backlinks</h3>
 {{ range sort .Site.Pages "File.Path" }}
 {{ if findRE $path .Content }}
-<li><a title="split view" class="zettel-split" href="{{ .Permalink }}" target="split" onclick="openNav()"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="expand"><polygon points="13 2 18 2 18 7 17 7 17 3 13 3"></polygon><polygon points="2 13 3 13 3 17 7 17 7 18 2 18"></polygon><path fill="none" stroke="" stroke-width="1.1" d="M11,9 L17,3"></path><path fill="none" stroke="" stroke-width="1.1" d="M3,17 L9,11"></path></svg></a><a title="open" class="zettel-link text-gray-500  font-bold font-mono text-xs hover:bg-green-100-asdf" href="202009041424.html">[[<span class="text-green-700-backlinks text-xs">{{ .File.BaseFileName }}</span>]]</a><a href="{{ .Permalink }}" style="margin-left: 0.25rem;">{{ .Title }}</a></li>
+<li><a title="split view" class="zettel-split" href="{{ .Permalink }}" target="split" onclick="openNav()"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="expand"><polygon points="13 2 18 2 18 7 17 7 17 3 13 3"></polygon><polygon points="2 13 3 13 3 17 7 17 7 18 2 18"></polygon><path fill="none" stroke="" stroke-width="1.1" d="M11,9 L17,3"></path><path fill="none" stroke="" stroke-width="1.1" d="M3,17 L9,11"></path></svg></a><a title="open" class="zettel-link text-gray-500  font-bold font-mono text-xs hover:bg-green-100-asdf" href="{{ .Permalink }}">[[<span class="text-green-700-backlinks text-xs">{{ .File.BaseFileName }}</span>]]</a><a href="{{ .Permalink }}" style="margin-left: 0.25rem;">{{ .Title }}</a></li>
 
 {{ end }}
 {{ end }}
@@ -18,7 +18,7 @@
   {{ if and (and (eq .Params.layout "todo") (ne .Params.status 3)) (ne .Params.status 5)}}
     {{ range where .Site.Pages "Params.layout" "todoindex"}}
       {{ $todoindex := .File.BaseFileName }}
-      <li><a title="split view" class="zettel-split" href="{{ .Permalink }}" target="split" onclick="openNav()"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="expand"><polygon points="13 2 18 2 18 7 17 7 17 3 13 3"></polygon><polygon points="2 13 3 13 3 17 7 17 7 18 2 18"></polygon><path fill="none" stroke="" stroke-width="1.1" d="M11,9 L17,3"></path><path fill="none" stroke="" stroke-width="1.1" d="M3,17 L9,11"></path></svg></a><a title="open" class="zettel-link text-gray-500  font-bold font-mono text-xs" href="202009041424.html">[[<span class="text-green-700-backlinks text-xs">{{ .File.BaseFileName }}</span>]]</a><a href="{{ .Permalink }}" style="margin-left: 0.25rem;">{{ .Title }}</a></li>
+      <li><a title="split view" class="zettel-split" href="{{ .Permalink }}" target="split" onclick="openNav()"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="expand"><polygon points="13 2 18 2 18 7 17 7 17 3 13 3"></polygon><polygon points="2 13 3 13 3 17 7 17 7 18 2 18"></polygon><path fill="none" stroke="" stroke-width="1.1" d="M11,9 L17,3"></path><path fill="none" stroke="" stroke-width="1.1" d="M3,17 L9,11"></path></svg></a><a title="open" class="zettel-link text-gray-500  font-bold font-mono text-xs" href="{{ .Permalink }}">[[<span class="text-green-700-backlinks text-xs">{{ .File.BaseFileName }}</span>]]</a><a href="{{ .Permalink }}" style="margin-left: 0.25rem;">{{ .Title }}</a></li>
     {{ end }}
   {{ end }}
 {{ end }}

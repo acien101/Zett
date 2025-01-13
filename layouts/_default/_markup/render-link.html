@@ -1,4 +1,6 @@
-{{ $removedSpaces := replace .Destination "%20" "-" }}
+{{ $urlized := urlize .Destination }}
+
+{{ $removedSpaces := replace $urlized "%20" "-" }}
 
 {{ $fixedDestination := replace $removedSpaces ".md" ".html" }}
 

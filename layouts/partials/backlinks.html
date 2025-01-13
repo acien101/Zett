@@ -1,14 +1,13 @@
-{{ $bracket1 := "\\[\\[" }}
-{{ $bracket2 := "\\]\\]" }}
-{{ $filename := .File.BaseFileName }}
 
-{{ $path :=  printf "%s%s%s" $bracket1 $filename $bracket2 }}
+{{ $filename := .File.LogicalName }}
+{{ $removedSpaces := replace $filename " " "-" }}
+{{ $fixedString := replace $removedSpaces ".md" ".html" }}
 
 
 <ul class="backlinks">
 <h3 style="margin-top: 0px;">Backlinks</h3>
 {{ range sort .Site.Pages "Path" }}
-  {{ if findRE $path .Content }}
+  {{ if findRE $fixedString .Content }}
     <li><a title="split view" class="zettel-split" href="{{ .Permalink }}" target="split"></a><a title="open" class="zettel-link text-gray-500  font-bold hover:bg-green-100-asdf" href="{{ .Permalink }}">[[<span class="text-green-700-backlinks ">{{ .File.BaseFileName }}</span>]]</a><a href="{{ .Permalink }}" style="margin-left: 0.25rem;">{{ .Title }}</a></li>
   {{ end }}
 {{ end }}

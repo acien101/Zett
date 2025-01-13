@@ -1,0 +1,10 @@
+{{ $removedSpaces := replace .Destination "%20" "-" }}
+
+{{ $fixedDestination := replace $removedSpaces ".md" ".html" }}
+
+<a href="{{ $fixedDestination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>
+  {{- with .Text }}{{ . }}{{ end -}}
+</a>
+{{- /* chomp trailing newline */ -}}

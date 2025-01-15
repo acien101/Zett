@@ -1,10 +1,13 @@
+{{ $isHTTP := strings.HasPrefix .Destination "http://" }}
+{{ $isHTTPS := strings.HasPrefix .Destination "https://" }}
+{{ $isExternal := or $isHTTP $isHTTPS }}
 {{ $urlized := urlize .Destination }}
-
 {{ $removedSpaces := replace $urlized "%20" "-" }}
-
 {{ $fixedDestination := replace $removedSpaces ".md" ".html" }}
 
-<a href="{{ $fixedDestination | safeURL }}"
+<a 
+  {{ if $isExternal }} href="{{ .Destination | safeURL }}" target="_blank" rel="noopener noreferrer"
+  {{ else  }} href="{{ $fixedDestination | safeURL }}" {{ end }}
   {{- with .Title }} title="{{ . }}"{{ end -}}
 >
   {{- with .Text }}{{ . }}{{ end -}}
